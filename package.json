@@ -14,13 +14,13 @@
 		"format:check": "prettier . --check"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.8.32",
+		"@cloudflare/vitest-pool-workers": "0.9.14",
 		"@eslint/js": "^10.0.1",
 		"eslint": "^10.2.1",
 		"prettier": "^3.6.2",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.59.1",
-		"vitest": "~3.1.0",
+		"vitest": "~3.2.0",
 		"wrangler": "^4.86.0"
 	}
 }
