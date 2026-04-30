@@ -5,11 +5,11 @@ import type { WorkerEnv } from '../src/types';
 // Create a mock Request object
 // This function simulates a request with a specific IP address
 function createRequest(ip: string) {
-  return {
-    headers: {
-      get: (key: string) => (key === 'CF-Connecting-IP' ? ip : null)
-    }
-  } as unknown as Request;
+	return {
+		headers: {
+			get: (key: string) => (key === 'CF-Connecting-IP' ? ip : null),
+		},
+	} as unknown as Request;
 }
 
 describe('handleRateLimit', () => {
