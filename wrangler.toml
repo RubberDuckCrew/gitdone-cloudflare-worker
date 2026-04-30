@@ -1,0 +1,11 @@
+# For more details on how to configure Wrangler, refer to:
+# https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "gitdone-cloudflare-worker"
+main = "src/index.ts"
+compatibility_date = "2026-04-30"
+workers_dev = true
+
+[observability]
+enabled = false
+
