@@ -44,7 +44,7 @@ export default {
 		const githubRes = await fetch('https://github.com/login/oauth/access_token', {
 			method: 'POST',
 			headers: {
-				'Accept': 'application/json',
+				Accept: 'application/json',
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
 			body: params.toString(),
