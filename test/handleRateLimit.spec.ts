@@ -2,6 +2,10 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { handleRateLimit } from '../src';
 import type { WorkerEnv } from '../src/types';
 
+type TestWorkerEnv = WorkerEnv & {
+	RATE_LIMIT_STORE: NonNullable<WorkerEnv['RATE_LIMIT_STORE']>;
+};
+
 // Create a mock Request object
 // This function simulates a request with a specific IP address
 function createRequest(ip: string) {
@@ -13,7 +17,7 @@ function createRequest(ip: string) {
 }
 
 describe('handleRateLimit', () => {
-	let env: WorkerEnv;
+	let env: TestWorkerEnv;
 
 	beforeEach(() => {
 		env = { RATE_LIMIT_STORE: {} };
@@ -34,7 +38,9 @@ describe('handleRateLimit', () => {
 		}
 		const res = handleRateLimit(request, env);
 		expect(res).not.toBeNull();
-		// @ts-ignore
+		if (!res) {
+			throw new Error('Expected a Response');
+		}
 		expect(res.status).toBe(429);
 	});
 
@@ -44,8 +50,7 @@ describe('handleRateLimit', () => {
 			handleRateLimit(request, env);
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		env.RATE_LIMIT_STORE!['1.2.3.4'].start -= 11 * 60 * 1000;
+		env.RATE_LIMIT_STORE['1.2.3.4'].start -= 11 * 60 * 1000;
 		const res = handleRateLimit(request, env);
 		expect(res).toBeNull();
 	});
@@ -55,10 +60,8 @@ describe('handleRateLimit', () => {
 		for (let i = 0; i < 10; i++) {
 			handleRateLimit(request, env);
 		}
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		env.RATE_LIMIT_STORE!['5.6.7.8'].start -= 11 * 60 * 1000;
+		env.RATE_LIMIT_STORE['5.6.7.8'].start -= 11 * 60 * 1000;
 		handleRateLimit(request, env);
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		expect(env.RATE_LIMIT_STORE!['5.6.7.8'].count).toBe(1);
+		expect(env.RATE_LIMIT_STORE['5.6.7.8'].count).toBe(1);
 	});
 });

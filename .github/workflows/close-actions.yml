@@ -1,0 +1,15 @@
+name: Close Actions
+
+on:
+  issues:
+    types: [closed]
+  pull_request:
+    types: [closed]
+
+jobs:
+  run:
+    uses: RubberDuckCrew/.github/.github/workflows/action-close-actions.yml@9359cf3f39584573a76ae17b2efc76b192c5050e # v2.3.0
+    permissions:
+      issues: write
+      pull-requests: write
+      actions: write
