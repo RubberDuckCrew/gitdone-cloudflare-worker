@@ -1,12 +1,7 @@
 import { type OAuthRequestBody, type WorkerEnv } from "./types";
 
 export default {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async fetch(
-		request: Request,
-		env: WorkerEnv,
-		_ctx: ExecutionContext,
-	): Promise<Response> {
+	async fetch(request: Request, env: WorkerEnv): Promise<Response> {
 		if (request.method !== "POST") {
 			return new Response("Method Not Allowed", { status: 405 });
 		}
