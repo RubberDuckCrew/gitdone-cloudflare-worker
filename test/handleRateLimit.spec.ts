@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { handleRateLimit } from '../src';
-import type { WorkerEnv } from '../src/types';
+import { describe, it, expect, beforeEach } from "vitest";
+import { handleRateLimit } from "../src";
+import type { WorkerEnv } from "../src/types";
 
 type TestWorkerEnv = WorkerEnv & {
-	RATE_LIMIT_STORE: NonNullable<WorkerEnv['RATE_LIMIT_STORE']>;
+	RATE_LIMIT_STORE: NonNullable<WorkerEnv["RATE_LIMIT_STORE"]>;
 };
 
 // Create a mock Request object
@@ -11,57 +11,57 @@ type TestWorkerEnv = WorkerEnv & {
 function createRequest(ip: string) {
 	return {
 		headers: {
-			get: (key: string) => (key === 'CF-Connecting-IP' ? ip : null),
+			get: (key: string) => (key === "CF-Connecting-IP" ? ip : null),
 		},
 	} as unknown as Request;
 }
 
-describe('handleRateLimit', () => {
+describe("handleRateLimit", () => {
 	let env: TestWorkerEnv;
 
 	beforeEach(() => {
 		env = { RATE_LIMIT_STORE: {} };
 	});
 
-	it('should allow requests under the limit', () => {
-		const request = createRequest('1.2.3.4');
+	it("should allow requests under the limit", () => {
+		const request = createRequest("1.2.3.4");
 		for (let i = 0; i < 9; i++) {
 			const res = handleRateLimit(request, env);
 			expect(res).toBeNull();
 		}
 	});
 
-	it('should block requests over the limit', () => {
-		const request = createRequest('1.2.3.4');
+	it("should block requests over the limit", () => {
+		const request = createRequest("1.2.3.4");
 		for (let i = 0; i < 10; i++) {
 			handleRateLimit(request, env);
 		}
 		const res = handleRateLimit(request, env);
 		expect(res).not.toBeNull();
 		if (!res) {
-			throw new Error('Expected a Response');
+			throw new Error("Expected a Response");
 		}
 		expect(res.status).toBe(429);
 	});
 
-	it('should reset after windowMs', () => {
-		const request = createRequest('1.2.3.4');
+	it("should reset after windowMs", () => {
+		const request = createRequest("1.2.3.4");
 		for (let i = 0; i < 10; i++) {
 			handleRateLimit(request, env);
 		}
 
-		env.RATE_LIMIT_STORE['1.2.3.4'].start -= 11 * 60 * 1000;
+		env.RATE_LIMIT_STORE["1.2.3.4"].start -= 11 * 60 * 1000;
 		const res = handleRateLimit(request, env);
 		expect(res).toBeNull();
 	});
 
-	it('should free memory for IP after windowMs', () => {
-		const request = createRequest('5.6.7.8');
+	it("should free memory for IP after windowMs", () => {
+		const request = createRequest("5.6.7.8");
 		for (let i = 0; i < 10; i++) {
 			handleRateLimit(request, env);
 		}
-		env.RATE_LIMIT_STORE['5.6.7.8'].start -= 11 * 60 * 1000;
+		env.RATE_LIMIT_STORE["5.6.7.8"].start -= 11 * 60 * 1000;
 		handleRateLimit(request, env);
-		expect(env.RATE_LIMIT_STORE['5.6.7.8'].count).toBe(1);
+		expect(env.RATE_LIMIT_STORE["5.6.7.8"].count).toBe(1);
 	});
 });

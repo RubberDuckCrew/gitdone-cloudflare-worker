@@ -1,4 +1,4 @@
-declare module 'cloudflare:test' {
+declare module "cloudflare:test" {
 	interface ProvidedEnv extends Env {
 		CLIENT_ID: string;
 		CLIENT_SECRET: string;
