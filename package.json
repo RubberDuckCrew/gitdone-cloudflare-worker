@@ -15,12 +15,12 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.9.14",
-		"@eslint/js": "^10.0.1",
-		"eslint": "^10.3.0",
-		"prettier": "^3.6.2",
-		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.59.1",
-		"vitest": "~3.2.0",
-		"wrangler": "^4.86.0"
+		"@eslint/js": "10.0.1",
+		"eslint": "10.3.0",
+		"prettier": "3.8.3",
+		"typescript": "5.9.3",
+		"typescript-eslint": "8.59.1",
+		"vitest": "3.2.4",
+		"wrangler": "4.86.0"
 	}
 }
