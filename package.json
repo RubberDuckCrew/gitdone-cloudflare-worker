@@ -14,7 +14,7 @@
 		"format:check": "prettier . --check"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.22.0",
+		"@cloudflare/vitest-plugin": "1.1.5",
 		"@eslint/js": "10.0.1",
 		"eslint": "10.10.0",
 		"prettier": "3.9.6",
